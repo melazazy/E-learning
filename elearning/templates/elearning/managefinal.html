@@ -1,0 +1,35 @@
+{% extends "elearning/base.html" %}
+{% load static %}
+
+{% block script %}
+<script src="{% static 'elearning/js/addlecture.js' %}"></script>
+{% endblock %}
+
+{% block title %}Add Final project{% endblock %}
+
+{% block main %}
+{% if message %}
+<div>
+    <h1 style="color: red;">{{ message }}</h1>
+</div>
+<div style="pointer-events: none; opacity: 0.5;">
+    <form class="addcourse" action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_table }}
+        <!-- <input type="text" value="Add Lecutre" class="btn btn-primary"> -->
+    </form>
+</div>
+{% else %}
+<h2>Add Final project</h2>
+<form class="addcourse" action="{% url 'managefinal' id %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_table }}
+    {% if action %}
+    <button type="submit" name="button" value="Add" class="btn btn-primary">Add final project</button>
+    {% else %}
+    <button type="submit" name="button" value="Edit" class="btn btn-primary">Save final project</button>
+    {% endif %}
+    <!-- <input type="submit" value="Add final project" class="btn btn-primary"> -->
+</form>
+{% endif %}
+{% endblock %}

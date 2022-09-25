@@ -1,0 +1,60 @@
+{% extends "elearning/base.html" %}
+{% load static %}
+{% block script %}
+<script src="{% static 'elearning/js/enroll.js' %}"></script>
+{% endblock %}
+{% block title %} Enroll To {{course.course_title}} {% endblock %}
+
+{% block main %}
+<h2>Enroll: {{course.course_title}}</h2>
+{% if message %}
+<div>{{ message }}</div>
+{% endif %}
+<div class="enroll_details">
+    {% if type == 'paid' %}
+    <form action="" method="post" class="paymentform">
+        {% csrf_token %}
+        <div class="form-group">
+            <select name="type" id="paymenttype" required>
+                <option value="">Select Payment Type</option>
+                <option value="free" disabled>Free</option>
+                <option value="visa">Visa</option>
+                <option value="paypal">PayPal</option>
+            </select>
+        </div>
+        <!-- <input class="form-control" type="hidden" name="courseId" value="{{course.course_id}}"> -->
+        <p class="vtry"></p>
+        <div id="visainput" class="disabled_div">
+            {% for a in "1234" %}
+            <input class="visainput" type="text" name="num" maxlength="4"
+                oninput="this.value=this.value.replace(/\D/g, '');" />
+            {% endfor %}
+            <input type="hidden" name="cardvalue" id="cardvalue">
+            <span id="check"></span>
+        </div>
+        <p class="ptry"></p>
+        <div class="form-group">
+            <input value="" type="text" class="form-control" placeholder="Enter PayPal account" name="payaccount"
+                id="paypalinput" disabled>
+        </div>
+        <div class="form-group">
+            <input class="btn btn-primary" type="submit" value="Enroll" disabled>
+        </div>
+    </form>
+    {% else %}
+    <form action="" method="post" class="paymentform">
+        {% csrf_token %}
+        <select name="type" id="paymenttype" required>
+            <option value="">Select Payment Type</option>
+            <option value="free" selected>Free</option>
+            <option value="visa" disabled>Visa</option>
+            <option value="paypal" disabled>PayPal</option>
+        </select>
+        <!-- <input type="hidden" name="courseId" value="{{course.course_id}}"> -->
+        <input type="text" class="" placeholder="Enter Visa Number" value="0" disabled>
+        <input type="text" class="" placeholder="Enter PayPal account" value="0" disabled>
+        <input id="enrollbtn" class="btn btn-primary" type="submit" value="Enroll">
+    </form>
+</div>
+{% endif %}
+{% endblock %}

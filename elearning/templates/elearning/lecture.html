@@ -1,0 +1,249 @@
+{% extends "elearning/base.html" %}
+{% load static %}
+{% block script %}
+<script src="{% static 'elearning/js/lecture.js' %}"></script>
+<link rel="stylesheet" href="{% static 'elearning/css/lecture.css' %}">
+{% endblock %}
+{% block title %}{{course.course_title}} Learning{% endblock %}
+<style>
+    .progress .progress-bar {
+        width: status;
+    }
+</style>
+{% block main %}
+{% if message %}
+{{message}}
+you can Enroll in This course from <a href="/course/{{id}}">Here</a>
+{% else %}
+<div class="course">
+    <div class="box">
+        <aside id="aside">
+            <p>Learning Progress</p>
+            {% if status == 0 %}
+            <div class="progress" style=" margin-left: 5px;">
+                <div style="width:100%" class="progress-bar bg-danger" role="progressbar" aria-valuenow="{{status}}"
+                    aria-valuemin="0" aria-valuemax="100">
+                    {{status}}% </div>
+            </div>
+            {% else %}
+            <div class="progress" style=" margin-left: 5px;">
+                <div style="width:{{ status }}%" class="progress-bar bg-success " role="progressbar"
+                    aria-valuenow="{{status}}" aria-valuemin="0" aria-valuemax="100">
+                    {{status}}% </div>
+            </div>
+            {% if status == 100 and grade %}
+            <a style="margin-left: 5px;margin-top: 5px; text-align:center;"
+                href="/grade/{{course.course_id}}/{{user.id}}" class="nav-link bg-dark text-primary"> and you Graduated
+            </a>
+            {%endif%}
+            {% if status == 100 and not grade %}
+            <a style="margin-left: 5px;margin-top: 5px; text-align:center;" href="#"
+                class="nav-link bg-dark text-primary"> but Not Graduated yet
+            </a>
+            {%endif%}
+            {% endif %}
+            <ul>
+                {% for l in lectures %}
+                <li class="lecture" data-course_id="{{id}}" value="{{l.lecture_id}}"> {{l.lecture_title}}
+                </li>
+                <ul>
+                    {% if l.lecturestate.all %}
+                    <li class="lesson{{l.lecture_id}} hide" value="{{l.lesson_id}}" data-course_id="{{id}}"> <i
+                            class="fa-solid fa-lock-open" style="color: green;"></i> {{l.lecture_title}}</li>
+                    {% else %}
+                    <li class="lesson{{l.lecture_id}} hide" value="{{l.lesson_id}}" data-course_id="{{id}}"> <i
+                            class="fa-solid fa-lock" style="color: red;"></i> {{l.lecture_title}}</li>
+                    {% endif %}
+                    {% for lesson in l.lesson.all %}
+                    <li class="lesson{{l.lecture_id}} hide" value="{{lesson.id}}" data-course_id="{{id}}"
+                        data-lecture_id="{{l.lecture_id}}">
+                        {% if lesson.video_url %}
+                        <i class="fa-solid fa-video" style="color: rgb(0, 64, 128);"></i>
+                        {% elif lesson.image_url %}
+                        <i class="fa-solid fa-image" style="color: rgb(0, 64, 128);"></i>
+                        {% elif lesson.slide_url %}
+                        <i class="fa-solid fa-person-chalkboard" style="color: rgb(0, 64, 128);"></i>
+                        {% elif lesson.doc_url %}
+                        <i class="fa-solid fa-file-lines" style="color: rgb(0, 64, 128);"></i>
+                        {% else %}
+                        <i class="fa-solid fa-file-lines" style="color: rgb(0, 64, 128);"></i>
+                        {% endif %}
+                        {{lesson.lesson_title}}
+                    </li>
+                    {% endfor %}
+                    {% for a in l.lecture_assignment.all %}
+                    <li class="assign{{l.lecture_id}} hide" data-course_id="{{id}}" data-lecture_id="{{l.lecture_id}}">
+                        <i class="fa-solid fa-user-graduate"></i>{{ a.title}}
+                    </li>
+                    {% endfor%}
+                </ul>
+                {% endfor %}
+                {% if course.final.all %}
+                <div class="final">
+                    {% for f in course.final.all %}
+                    <li>
+                        <input type="hidden" name="final" id="course_final_id" value="{{id}}">
+                        {{f.title}}
+                    </li>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </ul>
+
+        </aside>
+        <section id="lecture-section">
+            <div class="img">
+                <iframe id="details_player" src="{{course.video_url}}" width="48%" frameborder="0"
+                    allow="autoplay; fullscreen" allowfullscreen>
+                </iframe>
+            </div>
+            <div class="course_block">
+                <h3>{{course.course_title}}</h3>
+                <p>{{course.describe}}</p>
+                <br>
+                <!-- <div class="course-footer">
+                    <div class="course-details">
+                        This course includes:
+                        <ul>
+                            <li> <span><i class="fas fa-chalkboard-teacher"></i> </span>({{course.lectures.all.count}}
+                                )Lectures
+                            </li>
+                            <li> <span><i class="fas fa-chalkboard"></i> </span>({{course.lessons.all.count}}) Lessons
+                            </li>
+                            <li> <span><i class="fa-solid fa-video"></i> </span>({{course.video_lenght}}) hours
+                                on-demand video
+                            </li>
+                            <li> <span><i class="fa-solid fa-infinity"></i> </span>lifetime access</li>
+                            <li> <span><i class="fa-solid fa-mobile-screen"></i> </span>Access on mobile and TV</li>
+                            <li> <span><i class="fa-solid fa-user-graduate"></i> </span>Certificate of completion</li>
+                        </ul>
+                    </div>
+                </div> -->
+            </div>
+            <h3>Course Syllabus</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="row">Lecture</th>
+                            <th scope="row">Lessons in Lecture</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for l in lectures %}
+                        <tr>
+                            <th scope="row">
+                                <p>{{l.lecture_title}}</p>
+                            </th>
+                            <td>
+                                <ul>
+                                    {% for x in l.lesson.all %}
+                                    <li>{{x.lesson_title}}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="course_reviews">
+                <h3> Student Reviews</h3>
+                <hr>
+                {% for c in comments %}
+                <div class="r-block">
+                    {% for t in c.username.all %}
+                    <img src="{{t.image}}" alt="Student" width="75px">
+                    <strong>{{t.username}}</strong>
+                    {% endfor %}
+                    <span>
+                        <svg style="display:none;">
+                            <defs>
+                                <symbol id="fivestars">
+                                    <path
+                                        d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24"
+                                        fill="white" fill-rule="evenodd" />
+                                    <path
+                                        d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24"
+                                        fill="white" fill-rule="evenodd" transform="translate(24)" />
+                                    <path
+                                        d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24"
+                                        fill="white" fill-rule="evenodd" transform="translate(48)" />
+                                    <path
+                                        d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24"
+                                        fill="white" fill-rule="evenodd" transform="translate(72)" />
+                                    <path
+                                        d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24"
+                                        fill="white" fill-rule="evenodd" transform="translate(96)" />
+                                </symbol>
+                            </defs>
+                        </svg>
+                        <div class="rating">
+                            <!--   <div class="rating-bg" style="width: 90%;"></div> -->
+                            <progress class="rating-bg" value="{{c.rate_scale}}" max="5"></progress>
+                            <svg>
+                                <use xlink:href="#fivestars" />
+                            </svg>
+                        </div>
+                    </span>
+                    <h4>{{c.review}}</h4>
+                </div>
+                <hr>
+                {% endfor %}
+                <h3>Rating This Course</h3>
+                <div class="stars">
+                    <div class="rating-group">
+                        <input class="rating__input rating__input--none" name="rating2" id="rating2-0" value="0"
+                            type="radio">
+                        <label aria-label="0 stars" class="rating__label" for="rating2-0">&nbsp;</label>
+                        <label aria-label="0.5 stars" class="rating__label rating__label--half" for="rating2-05"><i
+                                class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                        <input class="rating__input" name="rating2" id="rating2-05" value="0.5" type="radio">
+                        <label aria-label="1 star" class="rating__label" for="rating2-10"><i
+                                class="rating__icon rating__icon--star fa fa-star"></i></label>
+                        <input class="rating__input" name="rating2" id="rating2-10" value="1" type="radio" checked>
+                        <label aria-label="1.5 stars" class="rating__label rating__label--half" for="rating2-15"><i
+                                class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                        <input class="rating__input" name="rating2" id="rating2-15" value="1.5" type="radio">
+                        <label aria-label="2 stars" class="rating__label" for="rating2-20"><i
+                                class="rating__icon rating__icon--star fa fa-star"></i></label>
+                        <input class="rating__input" name="rating2" id="rating2-20" value="2" type="radio">
+                        <label aria-label="2.5 stars" class="rating__label rating__label--half" for="rating2-25"><i
+                                class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                        <input class="rating__input" name="rating2" id="rating2-25" value="2.5" type="radio">
+                        <label aria-label="3 stars" class="rating__label" for="rating2-30"><i
+                                class="rating__icon rating__icon--star fa fa-star"></i></label>
+                        <input class="rating__input" name="rating2" id="rating2-30" value="3" type="radio">
+                        <label aria-label="3.5 stars" class="rating__label rating__label--half" for="rating2-35"><i
+                                class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                        <input class="rating__input" name="rating2" id="rating2-35" value="3.5" type="radio">
+                        <label aria-label="4 stars" class="rating__label" for="rating2-40"><i
+                                class="rating__icon rating__icon--star fa fa-star"></i></label>
+                        <input class="rating__input" name="rating2" id="rating2-40" value="4" type="radio">
+                        <label aria-label="4.5 stars" class="rating__label rating__label--half" for="rating2-45"><i
+                                class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                        <input class="rating__input" name="rating2" id="rating2-45" value="4.5" type="radio">
+                        <label aria-label="5 stars" class="rating__label" for="rating2-50"><i
+                                class="rating__icon rating__icon--star fa fa-star"></i></label>
+                        <input class="rating__input" name="rating2" id="rating2-50" value="5" type="radio">
+                    </div>
+                </div>
+                <br>
+                <div class="addreviews">
+                    <form action="{% url 'addreview' id %}" method="POST">
+                        {% csrf_token %}
+                        <!-- <input type="hidden" name="price" value="{{course.price}}"> -->
+                        <input type="hidden" name="rate" id="rate">
+                        <input type="hidden" name="id" value="{{course.course_id}}">
+                        <textarea name="review" id="" cols="60" rows="10"></textarea>
+                        <button class="btn-primary" type="submit"> ADD REVIEWS FOR THIS COURSE</button>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+</div>
+{% endif %}
+{% endblock %}

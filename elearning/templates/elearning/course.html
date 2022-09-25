@@ -1,0 +1,175 @@
+{% extends "elearning/base.html" %}
+{% load static %}
+{% block title %}{{course.course_title}} Course Preview{% endblock %}
+
+{% block main %}
+{% if message %}
+<div style="color: rgb(2, 79, 53); font-size: 32px; font-weight: bolder;">{{ message }}</div>
+{% endif %}
+{% if course %}
+<div class="course course_details">
+    <div class="img">
+        {% if course.video_url%}
+        <iframe id="details_player" src="{{course.video_url}}" width="48%" frameborder="0" allow="autoplay; fullscreen"
+            allowfullscreen>
+        </iframe>
+        {% endif %}
+        {% if course.image_url%}
+        <img src="{{course.image_url}}" alt="Course Image" width="48%">
+        {% endif %}
+    </div>
+    <div class="course_block">
+        <h3>{{course.course_title}}</h3>
+        {% if enrol %}
+        {% for e in enrol %}
+        {% if e.complete_status %}
+        <a href="/grade/{{course.course_id}}/{{ user.id }}">Git Grade</a>
+        {% else %}
+        <a href="/lectures/{{course.course_id}}">Contune Learning</a>
+        {% endif %}
+        {%endfor%}
+        {% else %}
+        <div class="enrollingbtn">
+            <form action="/enroll/{{course.course_id}}" method="get">
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{course.course_id}}">
+                <button class="btn-primary" type="submit"> Enroll in This Cource</button>
+            </form>
+        </div>
+        {% endif %}
+        <p>{{course.describe}}</p>
+        <br>
+        <div class="course-footer">
+            <div class="teacher-detailse">
+                {% for t in course.teacher.all %}
+                <a href="{% url 'profile' t.id %}">
+                    <img src="{{t.image}}" alt="Teacher" width="100px">
+                    <h4>{{t.username}}</h4>
+                </a>
+                {% endfor %}
+                <p><span class="">Rating:
+                        ({% if course.rates %}
+                        {% widthratio course.rates course.raters 1 %} out of 5 {% else %}Not Rating
+                        {%endif%})
+                    </span><span aria-label="" class="">
+                        {{course.raters}}
+                    </span>
+                </p>
+                <p> All Students in Course ({{course.students.all.count}})</p>
+                <p><span style="color: green;">{% if course.price > 0 %} {{course.price}} {% else %} Free {% endif %}
+                    </span>
+                    {% if course.start_price > 0 %}<span
+                        style="color: red;"><s><span>E£{{course.start_price}}</span></s></span>{%endif %}
+                </p>
+                {% if course.best_seller%}
+                <p class="bSeller bSellerText">Best Seller</p>
+                {% else %}
+                <p class="bSeller"></p>
+                {% endif %}
+            </div>
+            <div class="course-details">
+                This course includes:
+                <ul>
+                    <li> <span><i class="fas fa-chalkboard-teacher"></i> </span>({{course.lectures.all.count}} )Lectures
+                    </li>
+                    <li> <span><i class="fas fa-chalkboard"></i> </span>({{course.lessons.all.count}}) Lessons</li>
+                    <li> <span><i class="fa-solid fa-video"></i> </span>({{course.video_lenght}}) hours on-demand video
+                    </li>
+                    <li> <span><i class="fa-solid fa-file-lines"></i> </span>{{lessons}} articles</li>
+                    <li> <span><i class="fa-solid fa-infinity"></i> </span>lifetime access</li>
+                    <li> <span><i class="fa-solid fa-mobile-screen"></i> </span>Access on mobile and TV</li>
+                    <li> <span><i class="fa-solid fa-user-graduate"></i> </span>Certificate of completion</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <h3>Course Syllabus</h3>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="row">Lecture</th>
+                    <th scope="row">Lessons in Lecture</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for l in lectures %}
+                <tr>
+                    <th scope="row">
+                        <p>{{l.lecture_title}}</p>
+                    </th>
+                    <td>
+                        <ul>
+                            {% for x in l.lesson.all %}
+                            <li>{{x.lesson_title}}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="course_reviews">
+        <h3> Student Reviews</h3>
+        <hr>
+        {% for c in comments %}
+        <div class="r-block">
+            {% for t in c.username.all %}
+            <img src="{{t.image}}" alt="Student" width="75px">
+            <strong>{{t.username}}</strong>
+            {% endfor %}
+            <span>
+                <svg style="display:none;">
+                    <defs>
+                        <symbol id="fivestars">
+                            <path
+                                d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24"
+                                fill="white" fill-rule="evenodd" />
+                            <path
+                                d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24"
+                                fill="white" fill-rule="evenodd" transform="translate(24)" />
+                            <path
+                                d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24"
+                                fill="white" fill-rule="evenodd" transform="translate(48)" />
+                            <path
+                                d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24"
+                                fill="white" fill-rule="evenodd" transform="translate(72)" />
+                            <path
+                                d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z M0 0 h24 v24 h-24 v-24"
+                                fill="white" fill-rule="evenodd" transform="translate(96)" />
+                        </symbol>
+                    </defs>
+                </svg>
+                <div class="rating">
+                    <!--   <div class="rating-bg" style="width: 90%;"></div> -->
+                    <progress class="rating-bg" value="{{c.rate_scale}}" max="5"></progress>
+                    <svg>
+                        <use xlink:href="#fivestars" />
+                    </svg>
+                </div>
+            </span>
+            <p>{{c.review}}</p>
+        </div>
+        <br>
+        {% endfor %}
+
+    </div>
+    {% if enrol %}
+    <a href="/lectures/{{course.course_id}}">Go To Lectures</a>
+    {% else %}
+    <div class="enrollingbtn">
+        <form action="/enroll/{{course.course_id}}" method="get">
+            {% csrf_token %}
+            <!-- <input type="hidden" name="price" value="{{course.price}}"> -->
+            <input type="hidden" name="id" value="{{course.course_id}}">
+            <button class="btn-primary" type="submit"> Enroll in This Cource</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+{% else %}
+<h2>Sorry No Course For Selected Course Id</h2>
+{% endif %}
+
+{% endblock %}

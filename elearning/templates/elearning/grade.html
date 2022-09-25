@@ -1,0 +1,22 @@
+{% extends "elearning/base.html" %}
+{% load static %}
+{% block main %}
+{% if message %}
+<div>{{ message }}</div>
+{% endif %}
+{% if grade %}
+<p>
+<h1> You Are Graduate</h1>
+</p>
+{% if grade.cert %}
+Your Certificate Here:
+<div class="cert-img">
+    <img src="/media/{{grade.cert}}" alt=" Certificate" width="600">
+</div>
+{% else %}
+<p>Your Certificate Not prepared Yet</p>
+{% endif %}
+{% else %}
+<p>You Not Graduated Yet</p>
+{% endif %}
+{% endblock %}

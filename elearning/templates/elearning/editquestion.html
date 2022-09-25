@@ -1,0 +1,22 @@
+{% extends "elearning/base.html" %}
+{% load static %}
+
+{% block script %}
+<!-- <script src="{% static 'elearning/js/addquestion.js' %}"></script> -->
+{% endblock %}
+{% block title %}Edit Question{% endblock %}
+
+{% block main %}
+{% if message %}
+<div>
+    <h1 style="color: red;">{{ message }}</h1>
+</div>
+{% else %}
+<h2>Edit Question</h2>
+<form class="addcourse" action="{% url 'editquestion' qid %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_table }}
+    <input type="submit" value="edit Question" class="btn btn-primary">
+</form>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,446 @@
+<!-- <div class="reg">
+    <form action="{% url 'index' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_table }}
+        <input type="submit" value="Create User" class="btn btn-primary">
+    </form>
+</div> -->
+<!-- <a href="https://imgbox.com/6QxCptM2" target="_blank"><img src="" alt="image host"/></a>
+<a href="https://imgbox.com/4mMRWJsc" target="_blank"><img src="https://images2.imgbox.com/d7/b9/4mMRWJsc_o.jpeg" alt="image host"/></a>
+<a href="https://imgbox.com/4mMRWJsc" target="_blank"><img src="https://images2.imgbox.com/d7/b9/4mMRWJsc_o.jpeg" alt="image host"/></a>
+<a href="http://imgbox.com/6QxCptM2" target="_blank"><img src="https://thumbs2.imgbox.com/5b/42/6QxCptM2_o.jpeg" alt="imgbox"/></a> -->
+<!-- <a href="http://imgbox.com/6QxCptM2" target="_blank"><img src="https://images2.imgbox.com/5b/42/6QxCptM2_o.jpeg" alt="imgbox"/></a> -->
+
+
+<!-- <p><span style="color: green;">E£219.99</span> <span style="color: red;"><s><span>E£679.99</span></s></span>
+</p> -->
+
+<!-- // document.addEventListener('DOMContentLoaded', function () {
+    //     document.querySelectorAll('button').forEach(button => {
+    //         button.onclick = function () {
+    //             loadlec(this.dataset.lecture);
+    //         };
+    //     });
+    // });
+    
+    // function classToggle () {
+    //     console.log("Click");
+    //     let navs = document.querySelector('.navbars');
+    //     navs.classList.toggle('toggleShow');
+    //     console.log(navs);
+    //     console.log("Click2");
+    // }
+    
+    // document.querySelector('.navbar-toggle')
+    //     .addEventListener('click', classToggle); -->
+
+<!-- 
+    navs.classList.toggle('show');
+    navs.forEach(nav => nav.classList.toggle('show')); -->
+
+
+
+# price__lte=p
+# price__gte=p
+# fcourses = Course.objects.filter(price__gte=p).prefetch_related(
+# 'students', 'lectures', 'lessons').annotate(rates=Sum('students'))
+# best_seller, categorys, course_id, course_title, describe, discussion_board_for_lecture,
+# final_project, image_url, lectures, lessons, price, questions, students, teacher, teachers, video_url
+# for f in fcourses:
+# print("students")
+# print(f.students.all())
+# print("Lecture")
+# print(f.lectures.all())
+# print("Lessons")
+# print(f.lessons.all())
+# print(fcourses.values('best_seller', 'categorys', 'course_id', 'course_title', 'describe',
+'discussion_board_for_lecture',
+# 'final_project', 'image_url', 'lectures', 'lessons', 'price', 'questions', 'students', 'teacher', 'teachers',
+'video_url'))
+# data = list(fcourses)
+# # data = {'is_success': True, 'msg': 'Yor Success message',
+# # 'return_result': list(fcourses)}
+# print("DATA")
+# print(data)
+# print("list(fcourses)")
+# print(list(fcourses))
+
+# services = Service.objects.filter(name__icontains=name)
+
+
+# return JsonResponse(list(fcourses), safe=False)
+# return JsonResponse(list(fcourses.values('best_seller', 'categorys', 'course_id', 'course_title', 'describe',
+'discussion_board_for_lecture',
+# 'final_project', 'image_url', 'lectures', 'lessons', 'price', 'questions', 'students', 'teacher', 'teachers',
+'video_url')), safe=False)
+
+
+# 111/////////////////////////
+# areaOfUse = self.request.query_params.getlist('areaOfUse[]',None)
+
+# /products?areaOfUse%5B%5D=residential&areaOfUse%5B%5D=test
+
+# import operator
+# from django.db.models import Q
+# from functools import reduce
+# queryset = Products.objects.filter(sub_categories_id = subCategoryId, is_active =
+True).select_related().filter(**filters)
+# if areaOfUse:
+# queryset.filter(
+# reduce(
+# operator.and_,
+# (Q(product_options__options__data__areaOfUse__contains=x) for x in areaOfUse)
+# )
+# )
+
+
+<div class="table-responsive">
+    <table class="table">
+        <tbody>
+            <tr>
+                <th scope="row">
+                    <p>consectetur adipisicing elit. Esse, illo.</p>
+                </th>
+                <td>
+                    <p>
+                        This Lecture About: Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores,
+                        blanditiis?
+                    </p>
+                    <p> Contine (5) Videos About (32) Minutes</p>
+                    <p> Contine (2) articles</p>
+                    <p> Contine (15) Questions</p>
+                </td>
+
+            </tr>
+            <tr>
+                <th scope="row">
+                    <p>Lorem ipsum dolor sit, amet cons</p>
+                </th>
+                <td>
+                    <p>
+                        This Lecture About: Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores,
+                        blanditiis?
+                    </p>
+                    <p> Contine (5) Videos About (32) Minutes</p>
+                    <p> Contine (2) articles</p>
+                    <p> Contine (15) Questions</p>
+                </td>
+
+            </tr>
+            <tr>
+                <th scope="row">
+                    <p>Lorem ipsum dolor sit, amet cons</p>
+                </th>
+                <td>
+                    <p>
+                        This Lecture About: Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores,
+                        blanditiis?
+                    </p>
+                    <p> Contine (5) Videos About (32) Minutes</p>
+                    <p> Contine (2) articles</p>
+                    <p> Contine (15) Questions</p>
+                </td>
+
+            </tr>
+            <tr>
+                <th scope="row">
+                    <p>Lorem ipsum dolor sit, amet cons</p>
+                </th>
+                <td>
+                    <p>
+                        This Lecture About: Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores,
+                        blanditiis?
+                    </p>
+                    <p> Contine (5) Videos About (32) Minutes</p>
+                    <p> Contine (2) articles</p>
+                    <p> Contine (15) Questions</p>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+return HttpResponseRedirect(reverse("flight", args=(flight_id,)))
+
+
+
+def loadlesson(c_id, l_id):
+lessons = Lesson.objects.filter(course_id=c_id, lecture_id=l_id)
+print("From loadlecture Function: ")
+for l in lessons:
+print(l)
+# return HttpResponse({urls[id]['url']})
+return JsonResponse(list(lessons.values()), safe=False)
+
+
+@csrf_exempt
+def addlessonjson(request):
+# JSON Function
+print('JSON Fun: ')
+data = json.loads(request.body)
+print("data1 : ")
+print(data)
+course_id = data.get('course_id')
+print(course_id)
+# lectures = Lecture.objects.filter(course_id=course_id).all()
+lectures = Lecture.objects.filter(
+course_id=course_id).prefetch_related('lesson').all()
+print("lectures")
+for l in lectures:
+print(l.lecture_title)
+print(lectures)
+data = lectureSerializer(lectures, many=True).data
+print("data2 : ")
+print(data)
+return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")
+
+
+<!-- {% load embed_video_tags %} -->
+<!-- {% video 'https://vimeo.com/341521434' 'small' %} -->
+
+
+<ul class="section-list">
+
+    <li data-lecture-id="3445883" data-lecture-url="/courses/django-projects-e-learning-portal/lectures/3445883"
+        class="section-item incomplete next-lecture">
+        <a class="item" data-no-turbolink="true" data-ss-course-id="221626"
+            data-ss-event-name="Lecture: Navigation Sidebar"
+            data-ss-event-href="/courses/django-projects-e-learning-portal/lectures/3445883" data-ss-event-type="link"
+            data-ss-lecture-id="3445883" data-ss-position="2" data-ss-school-id="1453" data-ss-user-id=""
+            href="/courses/django-projects-e-learning-portal/lectures/3445883" id="sidebar_link_3445883">
+            <span class="status-container" aria-label="Current item">
+                <span class="status-icon">
+                    &nbsp;
+                </span>
+            </span>
+            <div class="title-container">
+                <span class="lecture-icon v-middle">
+                    <svg width="24" height="24">
+                        <use xlink:href="#icon__Video"></use>
+                    </svg>
+                </span>
+                <span class="lecture-name">
+                    Apps and Views
+
+                    (7:18)
+
+                </span>
+            </div>
+        </a>
+    </li>
+
+    <li data-lecture-id="3445878" data-lecture-url="/courses/django-projects-e-learning-portal/lectures/3445878"
+        class="section-item incomplete">
+        <a class="item" data-no-turbolink="true" data-ss-course-id="221626"
+            data-ss-event-name="Lecture: Navigation Sidebar"
+            data-ss-event-href="/courses/django-projects-e-learning-portal/lectures/3445878" data-ss-event-type="link"
+            data-ss-lecture-id="3445878" data-ss-position="2" data-ss-school-id="1453" data-ss-user-id=""
+            href="/courses/django-projects-e-learning-portal/lectures/3445878" id="sidebar_link_3445878">
+            <span class="status-container">
+                <span class="status-icon">
+                    &nbsp;
+                </span>
+            </span>
+            <div class="title-container">
+                <span class="lecture-icon v-middle">
+                    <svg width="24" height="24">
+                        <use xlink:href="#icon__Video"></use>
+                    </svg>
+                </span>
+                <span class="lecture-name">
+                    Templates
+
+                    (6:37)
+
+                </span>
+            </div>
+        </a>
+    </li>
+
+    <li data-lecture-id="3445881" data-lecture-url="/courses/django-projects-e-learning-portal/lectures/3445881"
+        class="section-item incomplete">
+        <a class="item" data-no-turbolink="true" data-ss-course-id="221626"
+            data-ss-event-name="Lecture: Navigation Sidebar"
+            data-ss-event-href="/courses/django-projects-e-learning-portal/lectures/3445881" data-ss-event-type="link"
+            data-ss-lecture-id="3445881" data-ss-position="2" data-ss-school-id="1453" data-ss-user-id=""
+            href="/courses/django-projects-e-learning-portal/lectures/3445881" id="sidebar_link_3445881">
+            <span class="status-container">
+                <span class="status-icon">
+                    &nbsp;
+                </span>
+            </span>
+            <div class="title-container">
+                <span class="lecture-icon v-middle">
+                    <svg width="24" height="24">
+                        <use xlink:href="#icon__Video"></use>
+                    </svg>
+                </span>
+                <span class="lecture-name">
+                    Models
+
+                    (6:06)
+
+                </span>
+            </div>
+        </a>
+    </li>
+
+    <li data-lecture-id="3445880" data-lecture-url="/courses/django-projects-e-learning-portal/lectures/3445880"
+        class="section-item incomplete">
+        <a class="item" data-no-turbolink="true" data-ss-course-id="221626"
+            data-ss-event-name="Lecture: Navigation Sidebar"
+            data-ss-event-href="/courses/django-projects-e-learning-portal/lectures/3445880" data-ss-event-type="link"
+            data-ss-lecture-id="3445880" data-ss-position="2" data-ss-school-id="1453" data-ss-user-id=""
+            href="/courses/django-projects-e-learning-portal/lectures/3445880" id="sidebar_link_3445880">
+            <span class="status-container">
+                <span class="status-icon">
+                    &nbsp;
+                </span>
+            </span>
+            <div class="title-container">
+                <span class="lecture-icon v-middle">
+                    <svg width="24" height="24">
+                        <use xlink:href="#icon__Video"></use>
+                    </svg>
+                </span>
+                <span class="lecture-name">
+                    Models, Views, and Templates
+
+                    (7:55)
+
+                </span>
+            </div>
+        </a>
+    </li>
+
+    <li data-lecture-id="3445882" data-lecture-url="/courses/django-projects-e-learning-portal/lectures/3445882"
+        class="section-item incomplete">
+        <a class="item" data-no-turbolink="true" data-ss-course-id="221626"
+            data-ss-event-name="Lecture: Navigation Sidebar"
+            data-ss-event-href="/courses/django-projects-e-learning-portal/lectures/3445882" data-ss-event-type="link"
+            data-ss-lecture-id="3445882" data-ss-position="2" data-ss-school-id="1453" data-ss-user-id=""
+            href="/courses/django-projects-e-learning-portal/lectures/3445882" id="sidebar_link_3445882">
+            <span class="status-container">
+                <span class="status-icon">
+                    &nbsp;
+                </span>
+            </span>
+            <div class="title-container">
+                <span class="lecture-icon v-middle">
+                    <svg width="24" height="24">
+                        <use xlink:href="#icon__Video"></use>
+                    </svg>
+                </span>
+                <span class="lecture-name">
+                    Forms
+
+                    (11:08)
+
+                </span>
+            </div>
+        </a>
+
+    </li>
+
+</ul>
+# print("From loadlesson Function: ")
+# print(lectures)
+# for l in lectures:
+# print(l.lesson_title)
+# print("l.questions")
+# for p in l.questions.all():
+# print(p.question)
+# print(l.doc_url)
+# return HttpResponse({urls[id]['url']})
+# return JsonResponse(list(lessons.values()), safe=False)
+# return JsonResponse(list(lessons.values()), safe=False)
+<iframe
+    src="https://docs.google.com/presentation/d/e/2PACX-1vTsK3n157ArGnGHdZTKPg30M4yuaTnyrsdETOV0hNIyZwHzab9ciFE9M1bZBAuHibbhSuvpfVDJGCkh/embed?start=false&loop=false&delayms=3000"
+    frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true"
+    webkitallowfullscreen="true"></iframe>
+<iframe
+    src="https://docs.google.com/document/d/e/2PACX-1vTenCJKUbcc60E3lNPDIHM61taViY1psVBpuPIdS2jX7G6QbCL33_RIi5Bj8mG2hXSoY8ZHiSaHtbBF/pub?embedded=true"></iframe>
+
+let p = document.createElement('p');
+let h = document.createElement('h2');
+let form = document.createElement('form');
+let inputElem = document.createElement('input');
+let inputurl = document.createElement('input');
+let button = document.createElement('button');
+main.innerHTML = '';
+main.style.visibility = 'visible';
+p.innerHTML = `${data[0]['description']}`;
+h.innerHTML = `${data[0]['title']}`;
+inputElem.type = 'hidden';
+inputElem.name = 'csrfmiddlewaretoken';
+inputElem.value = getCookie('csrftoken');
+inputurl.type = 'text';
+inputurl.placeholder = 'Enter Assignment URL Here';
+form.method = 'POST';
+form.id = 'answers';
+form.action = '';
+button.setAttribute('type', 'submit');
+button.id = "assigneUrl";
+button.classList.add('btn', 'btn-primary');
+button.innerHTML = "Assigne Url";
+form.append(inputElem);
+form.append(inputurl);
+form.append(button);
+main.append(h);
+main.append(p);
+main.append(form);
+console.log("assigne data");
+console.log(data);
+
+
+{% if lesson.lessonstate.all %}
+{% for l in lesson.lessonstate.all %}
+{% for id in l.student.id_set.all %}
+{% if request.user.id == id %}
+<i class="fa-solid fa-lock-open" style="color: green;"></i>
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% else %}
+{% for l in lesson.lessonstate.all %}
+{% for x in l.student.all %}
+{% if request.user.id == x.id %}
+<i class="fa-solid fa-lock" style="color: red;"></i>
+{% endif %}
+{% endfor %}
+{% endfor %}
+
+{% endif %}
+
+# print(lectures)
+# task.mark_set.get.student_id
+# for l in lectures:
+# for a in l.lesson_set.all()[0].lesson_title:
+# print("lesson title: ")
+# print(a)
+# for w in a.lessonstate.all():
+# # teams = [t.name for t in team_member.members.all()]
+# if request.user.id in [x.id for x in w.student.all()]:
+# print(request.user.id)
+# else:
+# print("NNO")
+# for l in lectures:
+# for a in l.lesson.all():
+# for w in a.lessonstate.all():
+# # teams = [t.name for t in team_member.members.all()]
+# if request.user.id in [x.id for x in w.student.all()]:
+# print(request.user.id)
+# else:
+# print("NNO")
+# print(lls)
+# lessons = Lesson.objects.filter(
+# course_id=id).prefetch_related(Prefetch('lessonstate',
+queryset=Lessonstatus.objects.filter(student__id__in=userobj.all())))
+# print("lessons: ")
+# print(lessons)
+# for l in lessons:
+# print("l.lessonstate.all()")
+# print(l.lessonstate.all())

@@ -1,0 +1,19 @@
+{% extends "elearning/base.html" %}
+{% load static %}
+{% block title %}Profile: {{user.username}} {% endblock %}
+{% block main %}
+<h2>({{user.username}})</h2>
+{% if message %}
+<div>
+    <h1 style="color: red;">{{ message }}</h1>
+</div>
+{% else %}
+<h2>Edit Setting</h2>
+<form action="{% url 'editprofile' id  %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save" class="btn btn-primary">
+</form>
+{% endif %}
+{% endblock %}
+<!-- https://secure-acs2ui-bk2-indblr-blrtdc.wibmo.com/v1/acs/legacy/live/8607/M.P/uid=fbe8d2a6-fc1e-452f-bcd9-e1e0yJ7gZ8tG -->

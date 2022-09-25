@@ -1,0 +1,22 @@
+{% extends "elearning/base.html" %}
+{% load static %}
+
+{% block script %}
+<script src="{% static 'elearning/js/addassigne.js' %}"></script>
+{% endblock %}
+{% block title %}Edit Assignment{% endblock %}
+
+{% block main %}
+{% if message %}
+<div>
+    <h1 style="color: red;">{{ message }}</h1>
+</div>
+{% else %}
+<h2>Edit Assignment</h2>
+<form class="addcourse" action="{% url 'editassigne' id %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_table }}
+    <input type="submit" value="Add Assignment" class="btn btn-primary">
+</form>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,147 @@
+{% extends "elearning/base.html" %}
+{% load static %}
+{% block title %}Profile: {{user.username}} {% endblock %}
+{% block main %}
+{% if user %}
+<h2>({{user.username}})</h2>
+{% endif %}
+{% if message %}
+<div>{{ message }}</div>
+{% endif %}
+{% if user %}
+{% if request.user.id == user.id %}
+<div class="row">
+    <div class="user-image col-4">
+        <img src="{{user.image}}" class="img-radius" alt="Profile-Image">
+        <!-- <h6 class="f-w-600 m-t-25 m-b-10">{{user.username}} </h6> -->
+        <p class="text-primary">
+        <p>First Name: {{user.first_name}}</p>
+        <p>Last Name: {{user.last_name}}</p>
+        <p>E-mail: {{user.email}}</p>
+        <p>As a: {{user.type}}</p>
+        <p>Join From: {{user.date_joined}}</p>
+
+        <a href="/editprofile/{{user.id}}"> Edit Your Setting</a>
+
+        </p>
+    </div>
+    <div class="textv col-8">
+        {% if user.type == 'Teacher' or user.type == 'Admin' %}
+        <a class="btn-primary addcoursebtn" href="/addcourse"> Create New Course</a>
+        {% endif %}
+        {% if courses %}
+        <br>
+        <h3>Manage Your Own Courses</h3>
+        {% for c in courses %}
+        <div class="course-block" style="max-width: 40%;">
+            <a href="/manage/{{c.course_id}}" class="course_block-link">
+                <h4>
+                    {{c.course_title}}
+                </h4>
+                <img src="{{c.image_url}}" alt="Course Image" width="240" height="135">
+                <p>
+                    <small>Total Students: {{c.students.all.count}}</small>
+                </p>
+                <p>
+                    <span class="">Rating:
+                        ({% if c.rates %}{% widthratio c.rates c.raters 1 %} out of 5 {% else %}Not Rating{% endif %})
+                    </span><span aria-label="" class="">
+                        {{c.raters}} <small>Rating</small></span>
+                </p>
+            </a>
+            <br>
+        </div>
+        {% endfor %}
+        <hr>
+        {% endif %}
+        {% if enroll %}
+        <h3>Your Enrolling Courses: </h3>
+        <div class="courses">
+            {% for e in enroll %}
+
+            {% if not e.complete_status%}
+            {% for a in e.course_id.all %}
+            <div class="course_block">
+                <a href="/course/{{a.course_id}}" class="nav-link course_block-link">
+                    <h4>
+                        {{a.course_title}}
+                    </h4>
+                    <img src="{{a.image_url}}" alt="Course Image" width="240" height="135">
+                </a>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            {% endfor %}
+        </div>
+        <hr>
+        {% endif %}
+
+        {% if enroll %}
+        <h3>Your Complete Courses </h3>
+        {% for e in enroll %}
+
+        {% if e.complete_status %}
+        {% for a in e.course_id.all %}
+        <div class="courses">
+            <div class="course_block">
+                <a href="/grade/{{a.course_id}}/{{user.id}}" class="nav-link course_block-link">
+                    <h4>
+                        {{a.course_title}}
+                    </h4>
+                    <img src="{{a.image_url}}" alt="Course Image" width="240" height="135">
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+
+
+    </div>
+</div>
+{% else %}
+<div class="row">
+    <div class="user-image col-4">
+        <img src="{{user.image}}" class="img-radius" alt="Profile-Image">
+        <!-- <h6 class="f-w-600 m-t-25 m-b-10">{{user.username}} </h6> -->
+        <p class="text-primary">
+        <p>First Name: {{user.first_name}}</p>
+        <p>Last Name: {{user.last_name}}</p>
+        <p>E-mail: {{user.email}}</p>
+        <p>As a: {{user.type}}</p>
+        <p>Join From: {{user.date_joined}}</p>
+        </p>
+    </div>
+    <div class="textv col-8">
+        {% if courses %}
+        <br>
+        <h3>{{user.username}} Courses</h3>
+        {% for c in courses %}
+        <div class="course-block" style="max-width: 40%;">
+            <a href="/course/{{c.course_id}}" class="course_block-link">
+                <h4>
+                    {{c.course_title}}
+                </h4>
+                <img src="{{c.image_url}}" alt="Course Image" width="240" height="135">
+                <p>
+                    <small>Total Students: {{c.students.all.count}}</small>
+                </p>
+                <p>
+                    <span class="">Rating:
+                        ({% if c.rates %}{% widthratio c.rates c.raters 1 %} out of 5 {% else %}Not Rating{% endif %})
+                    </span><span aria-label="" class="">
+                        {{c.raters}} <small>Rating</small></span>
+                </p>
+            </a>
+            <br>
+        </div>
+        {% endfor %}
+        <hr>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+{% endif %}
+{% endblock %}

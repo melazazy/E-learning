@@ -1,0 +1,49 @@
+{% extends "elearning/base.html" %}
+{% load static %}
+
+{% block script %}
+<script src="{% static 'elearning/js/addlecture.js' %}"></script>
+{% endblock %}
+
+{% block title %}Add Lecture{% endblock %}
+
+{% block main %}
+{% if message %}
+<div>
+    <h1 style="color: red;">{{ message }}</h1>
+</div>
+{% endif %}
+<h2>Add Lecture</h2>
+<div class="table-responsive" id="table-responsive">
+</div>
+{% if message %}
+<div style="pointer-events: none; opacity: 0.5;">
+    <form class="addcourse" action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="course_id"> Select Course</label>
+        <select name="course" id="course_id">
+            <option value="" selected> Select</option>
+            {% for c in courses %}
+            <option value="{{c.course_id}}">{{c.course_title}}</option>
+            {% endfor %}
+        </select>
+        {{ form.as_table }}
+        <input type="text" value="Add Lecutre" class="btn btn-primary">
+    </form>
+</div>
+{% else %}
+<form class="addcourse" action="{% url 'addlecture' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="course_id"> Select Course</label>
+    <select name="course" id="course_id" required>
+        <option value="" selected> Select</option>
+        {% for c in courses %}
+        <option value="{{c.course_id}}">{{c.course_title}}</option>
+        {% endfor %}
+    </select>
+    <!-- <input type="hidden" name="courseId" id="courseId"> -->
+    {{ form.as_table }}
+    <input type="submit" value="Add Lecutre" class="btn btn-primary">
+</form>
+{% endif %}
+{% endblock %}

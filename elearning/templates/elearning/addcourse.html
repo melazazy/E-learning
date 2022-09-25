@@ -1,0 +1,41 @@
+{% extends "elearning/base.html" %}
+{% load static %}
+{% block script %}
+{% endblock %}
+{% block title %}Add Course{% endblock %}
+
+{% block main %}
+{% if message %}
+<div>
+    <h1 style="color: red;">{{ message }}</h1>
+</div>
+{% endif %}
+<h2>Add Course</h2>
+<div class="course_blockframe">
+    <div class="text">
+        Dear teacher, please follow the structure of the course as shown in the picture. Each course must be divided
+        into lectures, and each lecture into lessons. Each lecture contains questions that must be answered to allow the
+        student to follow the lessons. It also contains an assignment that must be resolved to move to the next lecture.
+        Also, each lesson contains questions that must be answered to move to the next lesson. At the end of the course,
+        there is a graduation/final project that the student must solve to obtain a graduation certificate.
+    </div>
+    <a href="{% static 'elearning/course_blockframe.png' %}" target="_blank">
+        <img src="{% static 'elearning/course_blockframe.png' %}" alt="E-Learning">
+    </a>
+</div>
+{% if message %}
+<div style="pointer-events: none; opacity: 0.5;">
+    <form class="addcourse" action="{% url 'index' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_table }}
+        <input type="submit" value="Create Course" class="btn btn-primary">
+    </form>
+</div>
+{% else %}
+<form class="addcourse" action="{% url 'addcourse' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_table }}
+    <input type="submit" value="Create Course" class="btn btn-primary">
+</form>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "elearning/base.html" %}
+{% load static %}
+
+{% block title %}Grade Final Projects{% endblock %}
+
+{% block main %}
+{% if message %}
+<div>
+    <h1 style="color: red;">{{ message }}</h1>
+</div>
+{% else %}
+
+{% for a in ass %}
+<h2>{{a.title}} </h2>
+<p> {{a.description}} </p>
+{% endfor %}
+<hr>
+{% for s in sub %}
+{% for u in s.user_id.all %}{{u.username }} {% endfor %} <a href="{{s.answer}}" target="_blank"> Answer</a>
+{% endfor %}
+<form action="{% url 'gradefinal' a_id s_id%}" method="post">
+    {% csrf_token %}
+    <input type="number" placeholder="degree" name="degree">
+    <input type="submit" value="Place degree">
+</form>
+{% endif %}
+{% endblock %}

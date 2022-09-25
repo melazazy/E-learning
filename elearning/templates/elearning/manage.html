@@ -1,0 +1,337 @@
+{% extends "elearning/base.html" %}
+{% load static %}
+{% block style %}
+<style>
+    .drow .btn {
+        padding: 0;
+        margin-right: 5px;
+    }
+
+    .drow form {
+        display: inline;
+    }
+</style>
+{% endblock %}
+{% block title %}
+Manage
+{% endblock %}
+{% block main %}
+
+{% if message %}
+<div>
+    <h1 style="color: red;">{{ message }}</h1>
+</div>
+{% endif %}
+
+{% if course %}
+<div class="addblock">
+    <div class="col-md-12 mb-3 col-sm-6">
+        <div class="row">
+            <div class="col-md-2">
+                <form>
+                    <button onclick="location.href=`{% url 'editcourse' id %}`;" type="button"
+                        class="btn mb-2 mb-md-0 btn-primary btn-block"><span>Edit Details</span></button>
+                </form>
+
+            </div>
+            <div class="col-md-2">
+                <form>
+                    <button onclick="location.href=`{% url 'addlecture' %}`;" type="button"
+                        class="btn mb-2 mb-md-0 btn-primary btn-block"><span>Add Lecture</span></button>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <form>
+                    <button onclick="location.href=`{% url 'addlesson' %}`;" type="button"
+                        class="btn mb-2 mb-md-0 btn-secondary btn-block"><span>Add Lesson</span></button>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <form>
+                    <button onclick="location.href=`{% url 'addquestion' %}`;" type="button"
+                        class="btn mb-2 mb-md-0 btn-success btn-block"><span>Add Question</span></button>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <form>
+                    <button onclick="location.href=`{% url 'addassigne' %}`;" type="button"
+                        class="btn mb-2 mb-md-0 btn-info btn-block"><span>Assignment</span></button>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <form>
+                    <button onclick="location.href=`{% url 'delcourse' id %}`;" type="button"
+                        class="btn mb-2 mb-md-0 btn-danger btn-block"><span>Delete Course</span></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="drow">
+    {% for c in course%}
+    <h1>{{c.course_title}}</h1>
+    {% for l in c.lectures.all%}
+    <div class="lecture">
+        <h3>{{l.lecture_title}}
+            <span>
+                <form action="{% url 'editlecture' c.course_id l.lecture_id %}" method="post">
+                    {% csrf_token %}
+                    <button name="button" class="btn-primary btn" type="submit"> <i
+                            class="fa-solid fa-pen-to-square"></i></button>
+                </form>
+            </span>
+            <span class="modelbtn">
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#model{{l.lecture_id}}">
+                    <i class="fa-solid fa-x"></i></button>
+                <div class="modal fade" id="model{{l.lecture_id}}" tabindex="-1" role="dialog"
+                    aria-labelledby="{{l.lecture_id}}mLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="{{l.lecture_id}}mLabel">Delete Lecture</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are You sure to delete ({{l.lecture_title}}) Lecture in ({{c.course_title}} )Course
+                                    nnnnewe
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <form action="{% url 'dellecture' c.course_id l.lecture_id%}" method="post">
+                                    <button type="submit" class="btn mb-2 mb-md-0 btn-primary btn-block"><span>Delete
+                                            Lecture</span></button>
+                                </form>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </span>
+        </h3>
+        {% for as in l.lecture_assignment.all %}
+        <li>Assignment: {{as.title}} <span>
+                <form action="{% url 'editassigne' as.id  %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn-info btn" type="submit"> <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                </form>
+            </span>
+            <span>
+                <form action="{% url 'delassigne' as.id  %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn-danger btn" type="submit"> <i class="fa-regular fa-trash-can"></i></button>
+                </form>
+            </span>
+        </li>
+        {% empty %}
+        <p class="emptyentry"> No Assignment For This Lecture Add New Assignment From Above Buttons</p>
+        {% endfor %}
+        {% for ask in l.asks.all %}
+        {% if not ask.lesson_id.all %}
+        <li>Question: {{ask.question}} <span>
+                <form action="{% url 'editquestion' ask.id  %}" method="post">
+                    {% csrf_token %}
+                    <button name="button" class="btn-success btn" type="submit"> <i
+                            class="fa-solid fa-pen-to-square"></i></button>
+                </form>
+            </span>
+            <span>
+                <form action="{% url 'delquestion' ask.id %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn-danger btn" type="submit"> <i class="fa-regular fa-trash-can"></i></button>
+                </form>
+            </span>
+        </li>
+        {% endif %}
+        {% empty %}
+        <p class="emptyentry"> No Questions For This Lecture Add Questions From Above Buttons</p>
+        {% endfor %}
+        <ul>
+            {% for lesson in l.lesson.all %}
+            <li>- {{lesson.lesson_title}}
+                <span>
+                    <form action="{% url 'editlesson' c.course_id l.lecture_id lesson.id %}" method="post">
+                        {% csrf_token %}
+                        <button name="button" class="btn-primary btn" type="submit"> <i
+                                class="fa-solid fa-pen-to-square"></i></button>
+                    </form>
+                    <span>
+                        <form action="{% url 'dellesson' c.course_id l.lecture_id lesson.id %}" method="post">
+                            {% csrf_token %}
+                            <button class="btn-danger btn" type="submit"> <i
+                                    class="fa-regular fa-trash-can"></i></button>
+                        </form>
+                    </span>
+                </span>
+            </li>
+            <ul>
+                {% for q in lesson.questions.all %}
+                <li>-- {{q.question}} <span>
+                        <form action="{% url 'editquestion' q.id  %}" method="post">
+                            {% csrf_token %}
+                            <button name="button" class="btn-success btn" type="submit"> <i
+                                    class="fa-solid fa-pen-to-square"></i></button>
+                        </form>
+                    </span><span>
+                        <form action="{% url 'delquestion' q.id %}" method="post">
+                            {% csrf_token %}
+                            <button class="btn-danger btn" type="submit"> <i
+                                    class="fa-regular fa-trash-can"></i></button>
+                        </form>
+                    </span></li>
+                {% empty %}
+                <p class="emptyentry"> No Questions For This Lesson Add Questions From Above Buttons</p>
+                {% endfor %}
+            </ul>
+            {% empty %}
+            <p class="emptyentry"> No Lesson For This Lecture Add Lesson From Above Buttons</p>
+            {% endfor %}
+        </ul>
+        <hr>
+        {% empty %}
+        <h3 class="emptyentry"> No lecture For This Course Add New lecture From Above Buttons</h3>
+    </div>
+    {% endfor %}
+    {% for f in c.final.all%}
+    <h3>{{f.title}}</h3>
+    {% empty %}
+    <p class="emptyentry"> No final project For This Course Add New From Beleow Button</p>
+    {% endfor %}
+    {% endfor %}
+</div>
+
+<div class="finalproject">
+    <div class="col-md-12 mb-3 col-sm-6">
+        <div class="row">
+            {% for c in course%}
+            {% if not c.final.all %}
+            <div class="col-md-4">
+                <form action="" method="post">
+                    <button onclick="location.href=`{% url 'managefinal' id %}`;" type="button" name="button"
+                        value="Add" class="btn mb-2 mb-md-0 btn-primary btn-block"><span>Add final
+                            project</span></button>
+                </form>
+            </div>
+            {% else %}
+            <div class="col-md-4">
+                <form>
+                    <button onclick="location.href=`{% url 'managefinal' id %}`;" type="button" name="button"
+                        value="Edit" class="btn mb-2 mb-md-0 btn-info btn-block"><span>Edit final
+                            project</span></button>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <form action="{% url 'manage' id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" name="button" value="Delete"
+                        class="btn mb-2 mb-md-0 btn-danger btn-block"><span>Delete final
+                            project</span></button>
+                </form>
+            </div>
+            {% endif %}
+            {% endfor %}
+
+
+        </div>
+    </div>
+</div>
+<hr>
+<div class="manage_assignment">
+    <div class="col-md-12 mb-3 col-sm-6">
+        <div class="row">
+            <h2> Grade Students Assignments: </h2>
+            <hr>
+
+            {% for i in course %}
+            {% for l in i.lectures.all %}
+            {% for f in l.lecture_assignment.all %}
+            {% if f.answers.all %}
+            <h3> Assignments For <span style="color: blue;">{{ l.lecture_title }}</span> : </h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="row">Student</th>
+                        <th scope="row">Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in f.answers.all%}
+                    {% if a.grade >= 0 %}
+                    <tr>
+                        <td>{% for w in a.user_id.all %} {{w.username}} {% endfor %}</td>
+                        <td>{{a.grade}}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td>{% for w in a.user_id.all %} {{w.username}} {% endfor %}</td>
+                        <th>{% for x in a.assignment_id.all %}<a href="/gradeassigne/{{f.id}}/{{a.id}}"> not Grade </a>
+                            {% endfor %}
+                        </th>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<hr>
+<div class="manage_finalProject">
+    <div class="col-md-12 mb-3 col-sm-6">
+        <div class="row">
+            <h2> Grade Final Project: </h2>
+            <hr>
+            {% for c in course %}
+            {% for f in c.final.all %}
+            <h3> Final Project For <span style="color: blue;">{{ c.course_title }}</span> : </h3>
+            {% if f.submission.all %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="row">Student</th>
+                        <th scope="row">Grade</th>
+                        <th scope="row">certificate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in f.submission.all%}
+                    {% if a.grade >= 0 %}
+                    <tr>
+                        <td>{% for w in a.user_id.all %} <a href="{% url 'profile' w.id %}"> {{w.username}} </a>
+                            {% endfor %}</td>
+                        <td>{{a.grade}}</td>
+                        {% if a.graduated.all %}
+                        <td>Already Have cert</td>
+                        {% else %}
+                        {% for w in a.user_id.all %}
+                        <td><a href="/upload_cert/{{c.course_id}}/{{w.id}}">
+                                Give him/her cert </a></td>
+                        {% endfor %}
+                        {%endif%}
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td>{% for w in a.user_id.all %} {{w.username}} {% endfor %}</td>
+                        <th>{% for x in a.final_id.all %}<a href="/gradefinal/{{f.id}}/{{a.id}}"> not Grade </a>
+                            {% endfor %}
+                        </th>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

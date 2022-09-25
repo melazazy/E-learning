@@ -1,0 +1,25 @@
+{% extends "elearning/base.html" %}
+{% load static %}
+{% block main %}
+
+{% if message %}
+<h3 style="color: red;">{{ message }}</h3>
+{% endif %}
+{% for c in course %}
+{% for u in user %}
+Remmember :
+<p>the Course name is: {{c.course_title}}</p>
+<p> the Student Username: {{u.username}}</p>
+<p> the Student first name: {{u.first_name}}</p>
+<p> the Student last name: {{u.last_name}}</p>
+<p>
+<h1> Upload Graduate</h1>
+<form class="addcourse" action="{% url 'upload_cert' c.course_id u.pk %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_table }}
+    <button type="submit" name="button" value="Add" class="btn btn-primary">Upload Certificate</button>
+</form>
+</p>
+{% endfor %}
+{% endfor %}
+{% endblock %}

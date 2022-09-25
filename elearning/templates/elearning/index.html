@@ -1,0 +1,94 @@
+{% extends "elearning/base.html" %}
+{% load static %}
+{% load tags_extra %}
+{% block main %}
+{% if message %}
+<div>{{ message }}</div>
+{% endif %}
+<section class="home">
+    <div class="text">
+        <p>
+            <span class="t-span">E-Learning</span> Where you can learn new <span class="t-span">skills</span> in a
+            <span class="t-span">practical</span> way and more <span class="t-span">effective</span>
+        </p>
+        {% if not request.user.id %}
+        <p>
+            <a class="btn btn-primary" href="/register">Register</i></a>
+            <a class="btn btn-primary" href="/login">Log In</a>
+        </p>
+        {% endif %}
+    </div>
+    <div class="img">
+        <img src="{% static 'elearning/img3.png' %}" alt="E-Learning">
+    </div>
+</section>
+<hr>
+<div class="search">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="col-5">
+                <select name="cat" id="cat" class="form-control custom-select custom-select-lg mb-3">
+                    <option value="0" selected>All Categorys</option>
+                    <option value="IT">IT</option>
+                    <option value="business">Business</option>
+                    <option value="marketing">Marketing</option>
+                    <option value="development">Development</option>
+                </select>
+            </div>
+            <!-- <input type="text" name="test"> -->
+            <div class="col-3">
+                <select name="price" id="price" class="form-control custom-select custom-select-lg mb-3">
+                    <option selected value="-10">Any Price</option>
+                    <option value="0">Free</option>
+                    <option value="1">Paid</option>
+                </select>
+            </div>
+            <div class="col-2">
+                <button type="submit" class="btn btn-primary mb-2" id="fillterbtn">Fillter</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="fillter" id="fillter" style="background-color: bisque;"></div>
+<div class="courses">
+    {% for c in courses %}
+    <div class="course_block">
+        <a href="/course/{{c.course_id}}" class="nav-link course_block-link">
+            <div class="img">
+                <!-- <img src="{% static 'elearning/img.jpeg' %}" alt="Course Image" width="240" height="135"> -->
+                <img src="{{c.image_url}}" alt="Course Image" width="240" height="135">
+            </div>
+            <h3> {{c.course_title}}</h3>
+            {% for t in c.teacher.all %}
+            <p>{{t.username}}</p>
+            {% endfor %}
+            {% for t in c.students.all %}
+            <p><s>{{t.username.all__allstudents}}</s></p>
+            {% endfor %}
+            <p><span class="">Rating:
+                    ({% if c.rates %}{{ c.rates|div:c.raters }} out of 5 {% else %}Not Rating{% endif %})
+                </span><span aria-label="" class="">
+                    {{c.raters}} <small>Rating</small></span>
+            </p>
+            <p><span style="color: green;">{% if c.price > 0 %} {{c.price}} $ {% else %} Free {% endif %} </span>
+                {% if c.start_price > 0 %}<span
+                    style="color: red;"><s><span>E£{{c.start_price}}</span></s></span>{%endif %}
+            </p>
+            {% if c.best_seller%}
+            <p class="bSeller bSellerText">Best Seller</p>
+            {% else %}
+            <p class="bSeller"></p>
+            {% endif %}
+        </a>
+        <!-- <button class="btn-primary" type="submit"> More Details</button> -->
+    </div>
+    {% endfor %}
+</div>
+<!-- fixed-bottom -->
+<footer class="footer text-center">
+    <p>
+        All Copyright Recerved &copy; <a href="/">E-Learning</a>
+    </p>
+</footer>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "elearning/base.html" %}
+{% load static %}
+{% block script %}
+{% endblock %}
+{% block title %}Delete Course{% endblock %}
+
+{% block main %}
+{% if message %}
+<div>
+    <h1 style="color: red;">{{ message }}</h1>
+</div>
+{% else %}
+<!-- ///////////// -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-body">
+            <p>Are you sure you want to delete <span style="color: blue;">({{title}}) </span> Course ?</p>
+            <form action="{% url 'delcourse' id %}" method="POST">
+                {% csrf_token %}
+                <a class="btn btn-warning" href="{% url 'manage' id %}">Cancel</a>
+                <input class="prevent-submit btn btn-danger" type="submit" name="Confirm"
+                    style="width: 150px; display: inline-block;">
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

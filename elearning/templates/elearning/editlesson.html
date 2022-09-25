@@ -1,0 +1,18 @@
+{% extends "elearning/base.html" %}
+{% load static %}
+{% block title %}Edit Lessons{% endblock %}
+
+{% block main %}
+{% if message %}
+<div>
+    <h1 style="color: red;">{{ message }}</h1>
+</div>
+{% else %}
+<h2>Edit Lesson</h2>
+<form class="addcourse" action="{% url 'editlesson' cid lid lesonid %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_table }}
+    <input type="submit" value="Edit Lesson" class="btn btn-primary">
+</form>
+{% endif %}
+{% endblock %}

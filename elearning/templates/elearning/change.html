@@ -1,0 +1,23 @@
+{% extends "elearning/base.html" %}
+{% load static %}
+
+{% block script %}
+{% endblock %}
+{% block title %}Add Question{% endblock %}
+
+{% block main %}
+{% if message %}
+<div>
+    <h1 style="color: red;">{{ message }}</h1>
+</div>
+{% else %}
+<h2>Change User Password</h2>
+<form class="addcourse" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_table }}
+    <input type="submit" value="Change" class="btn btn-primary">
+</form>
+{% endif %}
+{% endblock %}
+
+<!-- action="{% url 'addassigne' %}" -->
